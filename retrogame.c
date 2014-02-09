@@ -66,6 +66,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <sys/mman.h>
 #include <linux/input.h>
 #include <linux/uinput.h>
+#include <wiringPi.h>
+#include <"rotaryencoder.h">
 
 
 // START HERE ------------------------------------------------------------
@@ -185,7 +187,17 @@ int main(int argc, char *argv[]) {
 	// grapple with the GPIO configuration registers directly to enable
 	// the pull-ups.  Based on GPIO example code by Dom and Gert van
 	// Loo on elinux.org
-
+	
+	int keypress = 2;	//store the keyboard value from input.h
+	int rotate;	//the value from rotary encoder
+	int oldrotate;	//
+	
+	wiringPiSetup () ;
+	struct encoder *encoder = setupencoder(14, 15);
+	
+	
+	
+	
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0)
 		err("Can't open /dev/mem");
 	gpio = mmap(            // Memory-mapped I/O
@@ -209,6 +221,10 @@ int main(int argc, char *argv[]) {
 	(void)munmap((void *)gpio, BLOCK_SIZE); // Done with GPIO mmap()
 
 
+
+
+	
+
 	// ----------------------------------------------------------------
 	// All other GPIO config is handled through the sysfs interface.
 
@@ -219,6 +235,8 @@ int main(int argc, char *argv[]) {
 		sprintf(buf, "%d", io[i].pin);
 		write(fd, buf, strlen(buf));             // Export pin
 		pinConfig(io[i].pin, "active_low", "0"); // Don't invert
+	
+		
 		if(io[i].key == GND) {
 			// Set pin to output, value 0 (ground)
 			if(pinConfig(io[i].pin, "direction", "out") ||
@@ -249,6 +267,8 @@ int main(int argc, char *argv[]) {
 			p[j].revents = 0;
 			j++;
 		}
+		
+		
 	} // 'j' is now count of non-GND items in io[] table
 	close(fd); // Done exporting
 
@@ -332,6 +352,38 @@ int main(int argc, char *argv[]) {
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
 		}
+		
+	updateEncoders();	
+	rotate = encoder->value;
+	
+		
+	if(oldrotate == rotate) {
+			
+	} else if (oldrotate < rotate) {
+		keyEv.code  = KEY_BACKSPACE;
+		keyEv.value = 1;
+		write(fd, &keyEv, sizeof(keyEv));
+		keyEv.code  = keypress+1;
+		keyEv.value = 1;
+		write(fd, &keyEv, sizeof(keyEv));
+		c = 1;
+		oldrotate = rotate;	
+	} else if (oldrotate > rotate) {
+		keyEv.code  = KEY_BACKSPACE;
+		keyEv.value = 1;
+		write(fd, &keyEv, sizeof(keyEv));
+		keyEv.code  = keypress-1;
+		keyEv.value = 1;
+		write(fd, &keyEv, sizeof(keyEv));
+		c = 1;
+		oldrotate = rotate;	
+	}
+	if(c) write(fd, &synEv, sizeof(synEv));
+			timeout = -1; // Return to normal IRQ monitoring
+		
+
+		
+
 	}
 
 	// ----------------------------------------------------------------
