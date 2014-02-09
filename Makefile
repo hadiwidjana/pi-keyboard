@@ -1,5 +1,5 @@
 EXECS = retrogame
-CC    = gcc -Wall -O3 -fomit-frame-pointer -funroll-loops -s -lwiringpi
+CC    = gcc -Wall -O3 -fomit-frame-pointer -funroll-loops -s -lwiringPi
 
 all: $(EXECS)
 
