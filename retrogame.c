@@ -67,7 +67,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <linux/input.h>
 #include <linux/uinput.h>
 #include <wiringPi.h>
-#include <"rotaryencoder.h">
+#include "rotaryencoder.h"
 
 
 // START HERE ------------------------------------------------------------
