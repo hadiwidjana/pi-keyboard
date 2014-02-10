@@ -332,7 +332,7 @@ int main(int argc, char *argv[]) {
 				write(fd, &keyEv, sizeof(keyEv));
 				c = 1;
 				oldrotate = rotate;	
-			} else (oldrotate > rotate) {
+			} else if (oldrotate > rotate) {
 				/*keyEv.code  = KEY_BACKSPACE;
 				keyEv.value = 1;
 				write(fd, &keyEv, sizeof(keyEv));*/
