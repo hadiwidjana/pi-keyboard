@@ -67,7 +67,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <linux/input.h>
 #include <linux/uinput.h>
 #include <wiringPi.h>
-#include <"rotaryencoder.h">
+#include "rotaryencoder.h"
 
 
 // START HERE ------------------------------------------------------------
@@ -280,12 +280,7 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
-	for(i=0; i<IOLEN; i++) {
-		if(io[i].key != GND) {
-			if(ioctl(fd, UI_SET_KEYBIT, io[i].key) < 0)
-				err("Can't SET_KEYBIT");
-		}
-	}
+	
 	memset(&uidev, 0, sizeof(uidev));
 	snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "retrogame");
 	uidev.id.bustype = BUS_USB;
@@ -314,7 +309,16 @@ int main(int argc, char *argv[]) {
 
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
+		
+		
 		if(poll(p, j, timeout) > 0) { // If IRQ...
+		
+			for(i=0; i<IOLEN; i++) {
+				if(io[i].key != GND) {
+					if(ioctl(fd, UI_SET_KEYBIT, io[i].key) < 0)
+						err("Can't SET_KEYBIT");
+					}
+			}
 			for(i=0; i<j; i++) {       // Scan non-GND pins...
 				if(p[i].revents) { // Event received?
 					// Read current pin state, store
