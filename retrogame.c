@@ -191,14 +191,11 @@ int main(int argc, char *argv[]) {
 	// the pull-ups.  Based on GPIO example code by Dom and Gert van
 	// Loo on elinux.org
 	
-	int keypress = 2;	//store the keyboard value from input.h
+	int keypress = 30;	//store the keyboard value from input.h
 	int rotate;	//the value from rotary encoder
 	int oldrotate = 0;	//
 	
-	wiringPiSetupGpio () ;
-	struct encoder *keyr = setupencoder(17, 18);
-	if(keyr==NULL){exit(1);}
-	rotate = keyr->value;
+
 	
 	
 	
@@ -317,13 +314,16 @@ int main(int argc, char *argv[]) {
 	// function watches for GPIO IRQs in this case; it is NOT
 	// continually polling the pins!  Processor load is near zero.
 
+	wiringPiSetupGpio () ;
+	struct encoder *keyr = setupencoder(13, 12);
+	rotate = keyr->value;
+
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
 		
 				
-		if(rotate != keyr->value) {
 			
-			} else if (rotate < keyr->value) {
+			if (rotate < keyr->value) {
 				/*keyEv.code  = KEY_BACKSPACE;
 				keyEv.value = 1;
 				write(fd, &keyEv, sizeof(keyEv));*/
@@ -331,7 +331,7 @@ int main(int argc, char *argv[]) {
 				keyEv.value = 1;
 				write(fd, &keyEv, sizeof(keyEv));
 				c = 1;
-				oldrotate = rotate;	
+				rotate = keyr->value;	
 			} else if (rotate > keyr->value) {
 				/*keyEv.code  = KEY_BACKSPACE;
 				keyEv.value = 1;
@@ -340,7 +340,7 @@ int main(int argc, char *argv[]) {
 				keyEv.value = 1;
 				write(fd, &keyEv, sizeof(keyEv));
 				c = 1;
-				oldrotate = rotate;	
+				rotate = keyr->value;	
 			}
 			
 		if(poll(p, j, timeout) > 0) { // If IRQ...
