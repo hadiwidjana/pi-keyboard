@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
 	int oldrotate;	//
 	
 	wiringPiSetupGpio() ;
-	struct encoder *encoder = setupencoder(4, 14);
+	struct encoder *encoder = setupencoder(17, 18);
 	
 	
 	
@@ -358,6 +358,7 @@ int main(int argc, char *argv[]) {
 	
 		
 	if(oldrotate == rotate) {
+		c=1;
 			
 	} else if (oldrotate < rotate) {
 		keyEv.code  = KEY_BACKSPACE;
