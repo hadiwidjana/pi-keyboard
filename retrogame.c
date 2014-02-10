@@ -343,7 +343,7 @@ int main(int argc, char *argv[]) {
 				rotate = keyr->value;	
 			}
 			
-		if(poll(p, j, timeout) > 0) { // If IRQ...
+		/*if(poll(p, j, timeout) > 0) { // If IRQ...
 				
 			
 			for(i=0; i<j; i++) {       // Scan non-GND pins...
@@ -385,7 +385,7 @@ int main(int argc, char *argv[]) {
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
 			
-		}
+		}*/
 	
 
 	
