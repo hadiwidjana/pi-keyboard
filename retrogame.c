@@ -358,7 +358,7 @@ int main(int argc, char *argv[]) {
 			timeout = -1; // Return to normal IRQ monitoring
 			
 		}
-	/*	
+	
 	updateEncoders();	
 	rotate = encoder->value;
 	
@@ -388,7 +388,7 @@ int main(int argc, char *argv[]) {
 			timeout = -1; // Return to normal IRQ monitoring
 		
 
-		*/
+		
 
 	}
 
