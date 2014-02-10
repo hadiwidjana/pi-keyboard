@@ -353,12 +353,6 @@ int main(int argc, char *argv[]) {
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
 			io[i].key++;
-			for(i=0; i<IOLEN; i++) {
-				if(io[i].key != GND) {
-					if(ioctl(fd, UI_SET_KEYBIT, io[i].key) < 0)
-						err("Can't SET_KEYBIT");
-				}
-			}
 		}
 	/*	
 	updateEncoders();	
