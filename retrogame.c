@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 	int oldrotate;	//
 	
 	wiringPiSetup () ;
-	struct encoder *encoder = setupencoder(14, 15);
+	struct encoder *encoder = setupencoder(17, 18);
 	
 	
 	
@@ -318,6 +318,30 @@ int main(int argc, char *argv[]) {
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
 		if(poll(p, j, timeout) > 0) { // If IRQ...
+		
+				updateEncoders();	
+				rotate = encoder->value;
+			if(oldrotate == rotate) {
+			
+			} else if (oldrotate < rotate) {
+				keyEv.code  = KEY_BACKSPACE;
+				keyEv.value = 1;
+				write(fd, &keyEv, sizeof(keyEv));
+				keyEv.code  = keypress+1;
+				keyEv.value = 1;
+				write(fd, &keyEv, sizeof(keyEv));
+				c = 1;
+				oldrotate = rotate;	
+			} else if (oldrotate > rotate) {
+				keyEv.code  = KEY_BACKSPACE;
+				keyEv.value = 1;
+				write(fd, &keyEv, sizeof(keyEv));
+				keyEv.code  = keypress-1;
+				keyEv.value = 1;
+				write(fd, &keyEv, sizeof(keyEv));
+				c = 1;
+				oldrotate = rotate;	
+			}
 			for(i=0; i<j; i++) {       // Scan non-GND pins...
 				if(p[i].revents) { // Event received?
 					// Read current pin state, store
@@ -359,37 +383,11 @@ int main(int argc, char *argv[]) {
 			
 		}
 	
-	updateEncoders();	
-	rotate = encoder->value;
+
 	
 		
-	if(oldrotate == rotate) {
-			
-	} else if (oldrotate < rotate) {
-		keyEv.code  = KEY_BACKSPACE;
-		keyEv.value = 1;
-		write(fd, &keyEv, sizeof(keyEv));
-		keyEv.code  = keypress+1;
-		keyEv.value = 1;
-		write(fd, &keyEv, sizeof(keyEv));
-		c = 1;
-		oldrotate = rotate;	
-	} else if (oldrotate > rotate) {
-		keyEv.code  = KEY_BACKSPACE;
-		keyEv.value = 1;
-		write(fd, &keyEv, sizeof(keyEv));
-		keyEv.code  = keypress-1;
-		keyEv.value = 1;
-		write(fd, &keyEv, sizeof(keyEv));
-		c = 1;
-		oldrotate = rotate;	
-	}
-	if(c) write(fd, &synEv, sizeof(synEv));
-			timeout = -1; // Return to normal IRQ monitoring
-		
-
-		
-
+	
+	
 	}
 
 	// ----------------------------------------------------------------
