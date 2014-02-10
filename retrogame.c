@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 	int oldrotate = 0;	//
 	
 	wiringPiSetup () ;
-	struct encoder *keyr = setupencoder(17, 18);
+	struct encoder *keyr = setupencoder(15, 16);
 	if(keyr==NULL){exit(1);}
 	rotate = keyr->value;
 	
@@ -320,10 +320,10 @@ int main(int argc, char *argv[]) {
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
 		
-				rotate = keyr->value;
-		if(oldrotate == rotate) {
+				
+		if(rotate != keyr->value) {
 			
-			} else if (oldrotate < rotate) {
+			} else if (rotate < keyr->value) {
 				/*keyEv.code  = KEY_BACKSPACE;
 				keyEv.value = 1;
 				write(fd, &keyEv, sizeof(keyEv));*/
@@ -332,7 +332,7 @@ int main(int argc, char *argv[]) {
 				write(fd, &keyEv, sizeof(keyEv));
 				c = 1;
 				oldrotate = rotate;	
-			} else if (oldrotate > rotate) {
+			} else if (rotate > keyr->value) {
 				/*keyEv.code  = KEY_BACKSPACE;
 				keyEv.value = 1;
 				write(fd, &keyEv, sizeof(keyEv));*/
