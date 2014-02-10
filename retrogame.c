@@ -67,7 +67,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <linux/input.h>
 #include <linux/uinput.h>
 #include <wiringPi.h>
-#include "rotaryencoder.h"
+#include <"rotaryencoder.h">
 
 
 // START HERE ------------------------------------------------------------
@@ -192,8 +192,8 @@ int main(int argc, char *argv[]) {
 	int rotate;	//the value from rotary encoder
 	int oldrotate;	//
 	
-	wiringPiSetupGpio() ;
-	struct encoder *encoder = setupencoder(17, 18);
+	wiringPiSetup () ;
+	struct encoder *encoder = setupencoder(14, 15);
 	
 	
 	
@@ -303,7 +303,7 @@ int main(int argc, char *argv[]) {
 	synEv.type  = EV_SYN;
 	synEv.code  = SYN_REPORT;
 	synEv.value = 0;
-
+	
 	// 'fd' is now open file descriptor for issuing uinput events
 
 
@@ -340,25 +340,32 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
-						keyEv.code  = io[i].key;
+						keyEv.code  =io[i].key;
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
+						
 					}
 					j++;
 				}
 			}
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
+			io[i].key++;
+			for(i=0; i<IOLEN; i++) {
+				if(io[i].key != GND) {
+					if(ioctl(fd, UI_SET_KEYBIT, io[i].key) < 0)
+						err("Can't SET_KEYBIT");
+				}
+			}
 		}
-		
+	/*	
 	updateEncoders();	
 	rotate = encoder->value;
 	
 		
 	if(oldrotate == rotate) {
-		c=1;
 			
 	} else if (oldrotate < rotate) {
 		keyEv.code  = KEY_BACKSPACE;
@@ -383,7 +390,7 @@ int main(int argc, char *argv[]) {
 			timeout = -1; // Return to normal IRQ monitoring
 		
 
-		
+		*/
 
 	}
 
