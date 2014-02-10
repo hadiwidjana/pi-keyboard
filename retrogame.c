@@ -91,6 +91,9 @@ struct {
 #define IOLEN (sizeof(io) / sizeof(io[0])) // io[] table size
 
 
+
+
+
 // A few globals ---------------------------------------------------------
 
 char
@@ -280,12 +283,12 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
-	/*for(i=0; i<IOLEN; i++) {
+	for(i=0; i<70; i++) {
 		if(io[i].key != GND) {
-			if(ioctl(fd, UI_SET_KEYBIT, io[i].key) < 0)
+			if(ioctl(fd, UI_SET_KEYBIT, i) < 0)
 				err("Can't SET_KEYBIT");
 		}
-	}*/
+	}
 	memset(&uidev, 0, sizeof(uidev));
 	snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "retrogame");
 	uidev.id.bustype = BUS_USB;
