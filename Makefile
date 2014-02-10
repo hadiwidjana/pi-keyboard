@@ -5,7 +5,7 @@ SRC	= retrogame.c rotaryencoder.c
 
 
 retrogame: $(SRC)
-	$(CC) $< -o $(EXECS) $(SRC)
+	$(CC) -o $(EXECS) $(SRC)
 
 clean:
 	rm -f $(EXECS)
