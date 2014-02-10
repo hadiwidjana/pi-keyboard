@@ -343,7 +343,8 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
-						keyEv.code  =io[i].key;
+						io[i].key = io[i].key + 1;
+						keyEv.code  = io[i].key;
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
@@ -355,7 +356,7 @@ int main(int argc, char *argv[]) {
 			}
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
-			io[i].key++;
+			
 		}
 	/*	
 	updateEncoders();	
