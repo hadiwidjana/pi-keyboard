@@ -195,8 +195,8 @@ int main(int argc, char *argv[]) {
 	int rotate;	//the value from rotary encoder
 	int oldrotate = 0;	//
 	
-	wiringPiSetup () ;
-	struct encoder *keyr = setupencoder(15, 16);
+	wiringPiSetupGpio () ;
+	struct encoder *keyr = setupencoder(17, 18);
 	if(keyr==NULL){exit(1);}
 	rotate = keyr->value;
 	
