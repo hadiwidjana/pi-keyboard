@@ -192,8 +192,8 @@ int main(int argc, char *argv[]) {
 	int rotate;	//the value from rotary encoder
 	int oldrotate;	//
 	
-	wiringPiSetup () ;
-	struct encoder *encoder = setupencoder(14, 15);
+	wiringPiSetupGpio() ;
+	struct encoder *encoder = setupencoder(4, 14);
 	
 	
 	
