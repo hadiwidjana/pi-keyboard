@@ -1,3 +1,6 @@
+#ifndef ROTARYENCODER_H
+#define ROTARIENCODER_H
+
 //17 pins / 2 pins per encoder = 8 maximum encoders
 #define max_encoders 8
 
@@ -19,3 +22,6 @@ struct encoder encoders[max_encoders];
   The pointer will be NULL is the function failed for any reason
 */
 struct encoder *setupencoder(int pin_a, int pin_b); 
+
+
+#endif
