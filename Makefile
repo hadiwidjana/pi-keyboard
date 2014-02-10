@@ -1,13 +1,11 @@
 EXECS = retrogame
-CC	= gcc -Wall -O3 -fomit-frame-pointer -funroll-loops -s 
+CC	= gcc -Wall -O3 -fomit-frame-pointer -funroll-loops -s -lwiringPi
 LDLIBS	= -lwiringPi
-SRC	= retrogame.c rotaryencoder.c rotaryencoder.h
+SRC	= retrogame.c rotaryencoder.c
 
-all: $(EXECS)
 
-retrogame: retrogame.c rotaryencoder.c
-	$(CC) $< -o $(LDLIBS) $@
-	strip $@
+retrogame: $(SRC)
+	$(CC) $< -o $(EXECS) $(SRC)
 
 clean:
 	rm -f $(EXECS)
