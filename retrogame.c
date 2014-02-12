@@ -311,6 +311,7 @@ int main(int argc, char *argv[]) {
 					// in internal state flag, but
 					// don't issue to uinput yet --
 					// must wait for debounce!
+					b++;
 					lseek(p[i].fd, 0, SEEK_SET);
 					read(p[i].fd, &c, 1);
 					if(c == '0')      intstate[i] = 1;
@@ -334,7 +335,7 @@ int main(int argc, char *argv[]) {
 						//{
 							
 							
-							keyEv.code  = keyboard[0]++;
+							keyEv.code  = keyboard[b];
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
