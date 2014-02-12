@@ -293,8 +293,8 @@ int main(int argc, char *argv[]) {
 					// Compare internal state against
 					// previously-issued value.  Send
 					// keystrokes only for changed states.
-					if(intstate[j] != extstate[j]) {
-						extstate[j] = intstate[j];
+					if(intstate[0] != extstate[0]) {
+						extstate[0] = intstate[0];
 						
 						keyEv.code  = keyarray2[cou];
 						
