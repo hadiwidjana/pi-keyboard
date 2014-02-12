@@ -40,7 +40,7 @@ struct {
 	{ 27,      KEY_BACKSPACE     },
 	{ 22,      KEY_ENTER     },
 	{ 23,      193     },
-	{ 24	194     },
+	{ 24,	194     },
 
 };
 
