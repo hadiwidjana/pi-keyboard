@@ -332,12 +332,12 @@ int main(int argc, char *argv[]) {
 						extstate[j] = intstate[j];
 						//if (io[i].key == 193)
 						//{
-							
-							keyEv.code  = keyboard[b];
-							//b=b+1;
+							b=b+1;
 							
 							if (b==36)
 							{b=0;}
+							keyEv.code  = keyboard[b];
+							
 							
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
