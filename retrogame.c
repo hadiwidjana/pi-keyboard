@@ -343,7 +343,7 @@ int main(int argc, char *argv[]) {
 						//{
 							
 							
-							keyEv.code  = io.key[i];
+							keyEv.code  = io[i].key;
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
