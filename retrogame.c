@@ -1,60 +1,4 @@
-/*
-ADAFRUIT RETROGAME UTILITY: remaps buttons on Raspberry Pi GPIO header
-to virtual USB keyboard presses.  Great for classic game emulators!
-Retrogame is interrupt-driven and efficient (usually under 0.3% CPU use)
-and debounces inputs for glitch-free gaming.
 
-Connect one side of button(s) to GND pin (there are several on the GPIO
-header, but see later notes) and the other side to GPIO pin of interest.
-Internal pullups are used; no resistors required.  Avoid pins 8 and 10;
-these are configured as a serial port by default on most systems (this
-can be disabled but takes some doing).  GPIO 18 should likewise be
-avoided; it's shared with audio output.  Pin configuration is currently
-set in global table; no config file yet.  See later comments.
-
-Must be run as root, i.e. 'sudo retrogame' or configure init scripts to
-launch automatically at system startup.
-
-Requires uinput kernel module.  This is typically present on popular
-Raspberry Pi Linux distributions but not enabled by default.  To enable,
-either type:
-
-    sudo modprobe uinput
-
-Or, to make this persistent between reboots, add a line to /etc/modules:
-
-    uinput
-
-Written by Phil Burgess for Adafruit Industries, distributed under BSD
-License.  Adafruit invests time and resources providing this open source
-code, please support Adafruit and open-source hardware by purchasing
-products from Adafruit!
-
-
-Copyright (c) 2013 Adafruit Industries.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-- Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
-- Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
-*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -82,7 +26,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #define GND -1
 
-const int babi[S] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30, 37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
+const int babi[] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30, 37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
 
 
 struct {
