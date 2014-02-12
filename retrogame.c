@@ -356,10 +356,10 @@ int main(int argc, char *argv[]) {
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
 						
-
+						if(b>10) b=0;
 					}
 					j++;
-					if(b>26) b=0;
+					
 				}
 			}
 			if(c) write(fd, &synEv, sizeof(synEv));
