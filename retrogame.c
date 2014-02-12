@@ -348,6 +348,7 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
+						
 						keyEv.code  = keyboard[b];
 						
 						keyEv.value = intstate[j];
@@ -357,7 +358,7 @@ int main(int argc, char *argv[]) {
 						
 						
 					}
-				
+					b++;
 					j++;
 					
 				}
