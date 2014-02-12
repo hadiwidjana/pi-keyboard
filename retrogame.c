@@ -359,7 +359,7 @@ int main(int argc, char *argv[]) {
 
 					}
 					j++;
-					if(b>4) b=0;
+					if(b>26) b=0;
 				}
 			}
 			if(c) write(fd, &synEv, sizeof(synEv));
