@@ -305,7 +305,7 @@ int main(int argc, char *argv[]) {
 						if (cou==0) cou=1;
 						else if (cou==1) cou=2;
 						else if (cou==2) cou=3;
-						else if (cou==3) cou=4;
+						/*else if (cou==3) cou=4;
 						else if (cou==4) cou=5;
 						else if (cou==5) cou=6;
 						else if (cou==6) cou=7;
@@ -337,7 +337,7 @@ int main(int argc, char *argv[]) {
 						else if (cou==32) cou=33;
 						else if (cou==33) cou=34;
 						else if (cou==34) cou=35;
-						else if (cou==35) cou=0;
+						else if (cou==35) cou=0;*/
 						
 					}
 					j++;
