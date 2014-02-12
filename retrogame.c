@@ -245,14 +245,13 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
-	/*for(i=0; i<; i++) {
+	for(i=0; i<; i++) {
 		if(io[i].key != GND) {
-			if(ioctl(fd, UI_SET_KEYBIT, i) < 0)
+			if(ioctl(fd, UI_SET_KEYBIT, io[].key) < 0)
 				err("Can't SET_KEYBIT");
 		}
-	}*/
-	if(ioctl(fd, UI_SET_KEYBIT, 200) < 0)
-				err("Can't SET_KEYBIT");
+	}
+
 	memset(&uidev, 0, sizeof(uidev));
 	snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "retrogame");
 	uidev.id.bustype = BUS_USB;
@@ -343,7 +342,7 @@ int main(int argc, char *argv[]) {
 						//{
 							
 							
-							keyEv.code  = keyboard[b];
+							keyEv.code  = io.key[];
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
