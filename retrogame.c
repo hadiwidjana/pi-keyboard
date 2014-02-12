@@ -355,6 +355,7 @@ int main(int argc, char *argv[]) {
 						extstate[j] = intstate[j];
 						
 						keyEv.code  = keyboard[b];
+						b++;
 						
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
@@ -363,7 +364,7 @@ int main(int argc, char *argv[]) {
 						
 						
 					}
-					b++;
+					
 					} else if (io[i].key == 184){
 					// Compare internal state against
 					// previously-issued value.  Send
@@ -372,7 +373,7 @@ int main(int argc, char *argv[]) {
 						extstate[j] = intstate[j];
 						
 						keyEv.code  = keyboard[b];
-						
+						b--;
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
@@ -380,7 +381,7 @@ int main(int argc, char *argv[]) {
 						
 						
 					}
-					b--;
+					
 					}
 					j++;
 					
