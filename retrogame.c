@@ -1,5 +1,4 @@
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -140,7 +139,7 @@ int main(int argc, char *argv[]) {
 	// Loo on elinux.org
 
 
-
+	int susi = 0;
 
 
 
@@ -297,7 +296,8 @@ int main(int argc, char *argv[]) {
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
 						
-						keyEv.code  = babi[5];
+						keyEv.code  = babi[susi];
+						susi++;
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
