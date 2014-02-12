@@ -79,15 +79,18 @@ POSSIBILITY OF SUCH DAMAGE.
 // often needed.  If you require just a couple extra ground connections
 // and have unused GPIO pins, set the corresponding key value to GND to
 // create a spare ground point.
-#define S 75
+
 #define GND -1
+
+const int babi[S] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30, 37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
+
+
 struct {
 	int pin;
 	int key;
 } io[] = {
 //	  Input    Output (from /usr/include/linux/input.h)
-	{ 2,      KEY_1     },
-	{ 3,      KEY_1     },
+	{ 2,      KEY_A     },
 };
 #define IOLEN (sizeof(io) / sizeof(io[0])) // io[] table size
 
@@ -178,11 +181,6 @@ int main(int argc, char *argv[]) {
 	struct uinput_user_dev uidev;           // uinput device
 	struct input_event     keyEv, synEv;    // uinput events
 	struct pollfd          p[IOLEN];        // GPIO file descriptors
-	int keyboard[S] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 
-			48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30,
-			37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 
-			20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
-	int b = 1;
 
 	progName = argv[0];             // For error reporting
 	signal(SIGINT , signalHandler); // Trap basic signals (exit cleanly)
@@ -196,6 +194,8 @@ int main(int argc, char *argv[]) {
 	// grapple with the GPIO configuration registers directly to enable
 	// the pull-ups.  Based on GPIO example code by Dom and Gert van
 	// Loo on elinux.org
+
+
 
 
 
@@ -284,7 +284,7 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
-	for(i=0; i<119; i++) {
+	for(i=0; i<70; i++) {
 		if(io[i].key != GND) {
 			if(ioctl(fd, UI_SET_KEYBIT, i) < 0)
 				err("Can't SET_KEYBIT");
@@ -317,12 +317,16 @@ int main(int argc, char *argv[]) {
 	// continually polling the pins!  Processor load is near zero.
 
 
+
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
-		
+
+
+
+
 		if(poll(p, j, timeout) > 0) { // If IRQ...
-
-
+				
+			
 			for(i=0; i<j; i++) {       // Scan non-GND pins...
 				if(p[i].revents) { // Event received?
 					// Read current pin state, store
@@ -341,54 +345,29 @@ int main(int argc, char *argv[]) {
 			// 'j' (number of non-GNDs) is re-counted as
 			// it's easier than maintaining an additional
 			// remapping table or a duplicate key[] list.
-			
-			
-			
 			for(c=i=j=0; i<IOLEN; i++) {
 				if(io[i].key != GND) {
-					
-					
-					
-					
 					// Compare internal state against
 					// previously-issued value.  Send
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
 						
-						keyEv.code  = keyboard[5];
-						
-						
+						keyEv.code  = babi[5];
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
 						
-						
-					
 					}
 					j++;
-					
 				}
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
-
+			
 		}
+
 
 
 
