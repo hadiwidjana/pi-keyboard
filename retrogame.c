@@ -302,7 +302,7 @@ int main(int argc, char *argv[]) {
 						write(fd, &keyEv,
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
-						if (cou==0) cou+1;
+						if (cou==0) cou=1;
 						
 					}
 					j++;
