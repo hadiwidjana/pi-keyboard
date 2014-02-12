@@ -349,12 +349,13 @@ int main(int argc, char *argv[]) {
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
 						b = b + 1;
-						if(b>70) b=1;
+						
 						keyEv.code  = keyboard[b];
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
+						if(b>71) b=0;
 
 					}
 					j++;
