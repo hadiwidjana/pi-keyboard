@@ -320,7 +320,7 @@ int main(int argc, char *argv[]) {
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
 		
-		/*if(poll(p, j, timeout) > 0) { // If IRQ...
+		if(poll(p, j, timeout) > 0) { // If IRQ...
 
 
 			for(i=0; i<j; i++) {       // Scan non-GND pins...
@@ -341,6 +341,9 @@ int main(int argc, char *argv[]) {
 			// 'j' (number of non-GNDs) is re-counted as
 			// it's easier than maintaining an additional
 			// remapping table or a duplicate key[] list.
+			
+			b++;
+			
 			for(c=i=j=0; i<IOLEN; i++) {
 				if(io[i].key != GND) {
 					
@@ -354,7 +357,7 @@ int main(int argc, char *argv[]) {
 						extstate[j] = intstate[j];
 						
 						keyEv.code  = keyboard[b];
-						b++;
+						
 						
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
@@ -385,14 +388,9 @@ int main(int argc, char *argv[]) {
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = 20; // Return to normal IRQ monitoring
 
-		}*/
+		}
 
 
-keyEv.code  = KEY_X;
-			keyEv.value = 1;
-			
-			write(fd, &keyEv,
-						  sizeof(keyEv));
 
 
 
