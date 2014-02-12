@@ -340,6 +340,7 @@ int main(int argc, char *argv[]) {
 						else if (cou==35) cou=0;
 						
 					}*/
+					if(intstate[j] != extstate[j]) {
 					keyEv.code  = keyarray2[cou];
 						
 						keyEv.value = intstate[j];
@@ -382,7 +383,7 @@ int main(int argc, char *argv[]) {
 						else if (cou==33) cou=34;
 						else if (cou==34) cou=35;
 						else if (cou==35) cou=0;
-					
+					}
 					j++;
 				
 			}
