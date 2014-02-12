@@ -358,6 +358,7 @@ int main(int argc, char *argv[]) {
 						
 					}
 					b++;
+					if(keyboard[b]==44) b=0;
 					j++;
 					
 				}
