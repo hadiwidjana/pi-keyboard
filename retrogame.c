@@ -356,7 +356,7 @@ int main(int argc, char *argv[]) {
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
 						
-						if(b>70) b=0;
+						if(b>65) b=0;
 					}
 					j++;
 					
