@@ -120,6 +120,13 @@ int main(int argc, char *argv[]) {
 	// GND.  This simplifies the code a bit -- no need for mallocs and
 	// tests to create these arrays -- but may waste a handful of
 	// bytes for any declared GNDs.
+	
+	int keyboard[] = { 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
+			48, 0, 46, 0, 32, 0, 18, 0, 33, 0, 34, 0, 35, 0, 23, 0, 36, 0,
+			37, 0, 38, 0, 50, 0, 49, 0, 24, 0, 25, 0, 16, 0, 19, 0, 31, 0, 
+			20, 0, 22, 0, 47, 0, 17, 0, 45, 0, 21, 0, 44};
+	
+	
 	int b = 0;
 	char                   buf[50],         // For sundry filenames
 	                       c;               // Pin input value ('0'/'1')
@@ -275,11 +282,8 @@ int main(int argc, char *argv[]) {
 	/*wiringPiSetupGpio () ;
 	struct encoder *keyr = setupencoder(13, 12);
 	rotate = keyr->value;*/
-	int keyboard[] = { 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
-			48, 0, 46, 0, 32, 0, 18, 0, 33, 0, 34, 0, 35, 0, 23, 0, 36, 0,
-			37, 0, 38, 0, 50, 0, 49, 0, 24, 0, 25, 0, 16, 0, 19, 0, 31, 0, 
-			20, 0, 22, 0, 47, 0, 17, 0, 45, 0, 21, 0, 44};
-	int b = 0;
+	
+
 	
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
