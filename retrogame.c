@@ -320,11 +320,10 @@ int main(int argc, char *argv[]) {
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
 
-		if (keyboard[b] == 44) {b=0;}
 		if(poll(p, j, timeout) > 0) { // If IRQ...
 
 
-			for(i=0; i<j; i++) {       // Scan non-GND pins...
+			/*for(i=0; i<j; i++) {       // Scan non-GND pins...
 				if(p[i].revents) { // Event received?
 					// Read current pin state, store
 					// in internal state flag, but
@@ -347,7 +346,7 @@ int main(int argc, char *argv[]) {
 					
 					
 					
-					if (io[i].key == 183){
+					
 					// Compare internal state against
 					// previously-issued value.  Send
 					// keystrokes only for changed states.
@@ -363,30 +362,30 @@ int main(int argc, char *argv[]) {
 						c = 1; // Follow w/SYN event
 						
 						
-					}
-					
-					} else if (io[i].key == 184){
-					// Compare internal state against
-					// previously-issued value.  Send
-					// keystrokes only for changed states.
-					if(intstate[j] != extstate[j]) {
-						extstate[j] = intstate[j];
-						
-						keyEv.code  = keyboard[b];
-						b--;
-						keyEv.value = intstate[j];
-						write(fd, &keyEv,
-						  sizeof(keyEv));
-						c = 1; // Follow w/SYN event
-						
-						
-					}
 					
 					}
 					j++;
 					
 				}
-			}
+			}*/
+			
+			
+			keyEv.code  = KEY_X;
+			keyEv.value = 1;
+			
+			write(fd, &keyEv,
+						  sizeof(keyEv));
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
 
