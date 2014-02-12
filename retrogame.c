@@ -303,6 +303,41 @@ int main(int argc, char *argv[]) {
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
 						if (cou==0) cou=1;
+						else if (cou==1) cou=2;
+						else if (cou==2) cou=3;
+						else if (cou==3) cou=4;
+						else if (cou==4) cou=5;
+						else if (cou==5) cou=6;
+						else if (cou==6) cou=7;
+						else if (cou==7) cou=8;
+						else if (cou==8) cou=9;
+						else if (cou==9) cou=10;
+						else if (cou==10) cou=11;
+						else if (cou==11) cou=12;
+						else if (cou==12) cou=13;
+						else if (cou==13) cou=14;
+						else if (cou==14) cou=15;
+						else if (cou==15) cou=16;
+						else if (cou==16) cou=17;
+						else if (cou==17) cou=18;
+						else if (cou==18) cou=19;
+						else if (cou==19) cou=20;
+						else if (cou==20) cou=21;
+						else if (cou==21) cou=22;
+						else if (cou==22) cou=23;
+						else if (cou==23) cou=24;
+						else if (cou==24) cou=25;
+						else if (cou==25) cou=26;
+						else if (cou==26) cou=27;
+						else if (cou==27) cou=28;
+						else if (cou==28) cou=29;
+						else if (cou==29) cou=30;
+						else if (cou==30) cou=31;
+						else if (cou==31) cou=32;
+						else if (cou==32) cou=33;
+						else if (cou==33) cou=34;
+						else if (cou==34) cou=35;
+						else if (cou==35) cou=0;
 						
 					}
 					j++;
