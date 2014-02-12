@@ -320,10 +320,10 @@ int main(int argc, char *argv[]) {
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
 		
-		if(poll(p, j, timeout) > 0) { // If IRQ...
+		/*if(poll(p, j, timeout) > 0) { // If IRQ...
 
 
-			/*for(i=0; i<j; i++) {       // Scan non-GND pins...
+			for(i=0; i<j; i++) {       // Scan non-GND pins...
 				if(p[i].revents) { // Event received?
 					// Read current pin state, store
 					// in internal state flag, but
@@ -367,14 +367,10 @@ int main(int argc, char *argv[]) {
 					j++;
 					
 				}
-			}*/
+			}
 			
 			
-			keyEv.code  = KEY_X;
-			keyEv.value = 1;
 			
-			write(fd, &keyEv,
-						  sizeof(keyEv));
 			
 			
 			
@@ -389,10 +385,14 @@ int main(int argc, char *argv[]) {
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = 20; // Return to normal IRQ monitoring
 
-		}
+		}*/
 
 
-
+keyEv.code  = KEY_X;
+			keyEv.value = 1;
+			
+			write(fd, &keyEv,
+						  sizeof(keyEv));
 
 
 
