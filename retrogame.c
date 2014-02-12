@@ -86,8 +86,8 @@ struct {
 	int key;
 } io[] = {
 //	  Input    Output (from /usr/include/linux/input.h)
-	{ 2,      183     },
-	{ 3,      184     },
+	{ 2,      KEY_1     },
+	{ 3,      KEY_1     },
 };
 #define IOLEN (sizeof(io) / sizeof(io[0])) // io[] table size
 
@@ -342,7 +342,7 @@ int main(int argc, char *argv[]) {
 			// it's easier than maintaining an additional
 			// remapping table or a duplicate key[] list.
 			
-			b++;
+			
 			
 			for(c=i=j=0; i<IOLEN; i++) {
 				if(io[i].key != GND) {
@@ -368,7 +368,7 @@ int main(int argc, char *argv[]) {
 					
 					}
 					j++;
-					
+					b++;
 				}
 			}
 			
