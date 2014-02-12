@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
 	struct uinput_user_dev uidev;           // uinput device
 	struct input_event     keyEv, synEv;    // uinput events
 	struct pollfd          p[IOLEN];        // GPIO file descriptors
-	int keyboard[S] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 
+	int keyboard[S] = { 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 
 			48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30,
 			37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 
 			20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
