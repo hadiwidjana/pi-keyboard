@@ -25,6 +25,7 @@
 #define GND -1
 
 const int keyarray[] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30, 37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
+const int keyarray2[] = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 30, 48, 46, 32, 18, 33, 34, 35, 23, 36, 37, 38, 50, 49, 24, 25, 16, 19, 31, 20, 22, 47, 17, 45, 21, 44};
 
 
 struct {
@@ -295,7 +296,7 @@ int main(int argc, char *argv[]) {
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
 						
-						keyEv.code  = keyarray[cou];
+						keyEv.code  = keyarray2[cou];
 						
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
