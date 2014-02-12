@@ -348,17 +348,16 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
-						for (b=0;b<73;b++)
-						{
 						keyEv.code  = keyboard[b];
 						
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
-						}
+						
 						
 					}
+					b++;
 					j++;
 					
 				}
