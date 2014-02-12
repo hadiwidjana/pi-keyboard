@@ -24,7 +24,7 @@
 
 #define GND -1
 
-const int babi[] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30, 37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
+const int keyarray[] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30, 37, 30, 38, 30, 50, 30, 49, 30, 24, 30, 25, 30, 16, 30, 19, 30, 31, 30, 20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
 
 
 struct {
@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
 	// Loo on elinux.org
 
 
-	int susi = 0;
+	int cou = 0;
 
 
 
@@ -295,13 +295,13 @@ int main(int argc, char *argv[]) {
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
 						
-						keyEv.code  = babi[susi];
+						keyEv.code  = keyarray[cou];
 						
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
-						if (b==0) b+1;
+						if (cou==0) cou+1;
 						
 					}
 					j++;
