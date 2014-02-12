@@ -384,7 +384,7 @@ int main(int argc, char *argv[]) {
 						else if (cou==35) cou=0;
 					
 					j++;
-				}
+				
 			}
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
