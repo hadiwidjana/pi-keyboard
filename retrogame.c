@@ -1,3 +1,61 @@
+/*
+ADAFRUIT RETROGAME UTILITY: remaps buttons on Raspberry Pi GPIO header
+to virtual USB keyboard presses.  Great for classic game emulators!
+Retrogame is interrupt-driven and efficient (usually under 0.3% CPU use)
+and debounces inputs for glitch-free gaming.
+
+Connect one side of button(s) to GND pin (there are several on the GPIO
+header, but see later notes) and the other side to GPIO pin of interest.
+Internal pullups are used; no resistors required.  Avoid pins 8 and 10;
+these are configured as a serial port by default on most systems (this
+can be disabled but takes some doing).  GPIO 18 should likewise be
+avoided; it's shared with audio output.  Pin configuration is currently
+set in global table; no config file yet.  See later comments.
+
+Must be run as root, i.e. 'sudo retrogame' or configure init scripts to
+launch automatically at system startup.
+
+Requires uinput kernel module.  This is typically present on popular
+Raspberry Pi Linux distributions but not enabled by default.  To enable,
+either type:
+
+    sudo modprobe uinput
+
+Or, to make this persistent between reboots, add a line to /etc/modules:
+
+    uinput
+
+Written by Phil Burgess for Adafruit Industries, distributed under BSD
+License.  Adafruit invests time and resources providing this open source
+code, please support Adafruit and open-source hardware by purchasing
+products from Adafruit!
+
+
+Copyright (c) 2013 Adafruit Industries.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,26 +81,13 @@
 // create a spare ground point.
 
 #define GND -1
-
-
 struct {
 	int pin;
 	int key;
 } io[] = {
 //	  Input    Output (from /usr/include/linux/input.h)
-	{ 2,      KEY_UP     },
-	{ 3,      KEY_DOWN     },
-	{ 4,      KEY_LEFT     },
-	{ 17,     KEY_RIGHT     },
-	{ 18,      KEY_SPACE     },
-	{ 27,      KEY_BACKSPACE     },
-	{ 22,      KEY_ENTER     },
-	{ 23,      193     },
-	{ 24,	194     },
-
+	{ 2,      KEY_A     },
 };
-
-
 #define IOLEN (sizeof(io) / sizeof(io[0])) // io[] table size
 
 
@@ -120,14 +165,6 @@ int main(int argc, char *argv[]) {
 	// GND.  This simplifies the code a bit -- no need for mallocs and
 	// tests to create these arrays -- but may waste a handful of
 	// bytes for any declared GNDs.
-	
-	int keyboard[] = { 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
-			48, 0, 46, 0, 32, 0, 18, 0, 33, 0, 34, 0, 35, 0, 23, 0, 36, 0,
-			37, 0, 38, 0, 50, 0, 49, 0, 24, 0, 25, 0, 16, 0, 19, 0, 31, 0, 
-			20, 0, 22, 0, 47, 0, 17, 0, 45, 0, 21, 0, 44};
-	
-	
-	int b = 0;
 	char                   buf[50],         // For sundry filenames
 	                       c;               // Pin input value ('0'/'1')
 	int                    fd,              // For mmap, sysfs, uinput
@@ -140,7 +177,11 @@ int main(int argc, char *argv[]) {
 	struct uinput_user_dev uidev;           // uinput device
 	struct input_event     keyEv, synEv;    // uinput events
 	struct pollfd          p[IOLEN];        // GPIO file descriptors
-
+	int keyboard[] = { 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
+			48, 0, 46, 0, 32, 0, 18, 0, 33, 0, 34, 0, 35, 0, 23, 0, 36, 0,
+			37, 0, 38, 0, 50, 0, 49, 0, 24, 0, 25, 0, 16, 0, 19, 0, 31, 0, 
+			20, 0, 22, 0, 47, 0, 17, 0, 45, 0, 21, 0, 44};
+	
 	progName = argv[0];             // For error reporting
 	signal(SIGINT , signalHandler); // Trap basic signals (exit cleanly)
 	signal(SIGKILL, signalHandler);
@@ -153,16 +194,12 @@ int main(int argc, char *argv[]) {
 	// grapple with the GPIO configuration registers directly to enable
 	// the pull-ups.  Based on GPIO example code by Dom and Gert van
 	// Loo on elinux.org
-	
-	int keypress = 30;	//store the keyboard value from input.h
-	int rotate;	//the value from rotary encoder
-	int oldrotate = 0;	//
-	
 
-	
-	
-	
-	
+
+
+
+
+
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) < 0)
 		err("Can't open /dev/mem");
 	gpio = mmap(            // Memory-mapped I/O
@@ -188,7 +225,7 @@ int main(int argc, char *argv[]) {
 
 
 
-	
+
 
 	// ----------------------------------------------------------------
 	// All other GPIO config is handled through the sysfs interface.
@@ -200,8 +237,8 @@ int main(int argc, char *argv[]) {
 		sprintf(buf, "%d", io[i].pin);
 		write(fd, buf, strlen(buf));             // Export pin
 		pinConfig(io[i].pin, "active_low", "0"); // Don't invert
-	
-		
+
+
 		if(io[i].key == GND) {
 			// Set pin to output, value 0 (ground)
 			if(pinConfig(io[i].pin, "direction", "out") ||
@@ -232,8 +269,8 @@ int main(int argc, char *argv[]) {
 			p[j].revents = 0;
 			j++;
 		}
-		
-		
+
+
 	} // 'j' is now count of non-GND items in io[] table
 	close(fd); // Done exporting
 
@@ -245,13 +282,12 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
-		
 	for(i=0; i<70; i++) {
+		if(io[i].key != GND) {
 			if(ioctl(fd, UI_SET_KEYBIT, i) < 0)
 				err("Can't SET_KEYBIT");
-		
+		}
 	}
-
 	memset(&uidev, 0, sizeof(uidev));
 	snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "retrogame");
 	uidev.id.bustype = BUS_USB;
@@ -269,7 +305,7 @@ int main(int argc, char *argv[]) {
 	synEv.type  = EV_SYN;
 	synEv.code  = SYN_REPORT;
 	synEv.value = 0;
-	
+
 	// 'fd' is now open file descriptor for issuing uinput events
 
 
@@ -278,37 +314,11 @@ int main(int argc, char *argv[]) {
 	// function watches for GPIO IRQs in this case; it is NOT
 	// continually polling the pins!  Processor load is near zero.
 
-	/*wiringPiSetupGpio () ;
-	struct encoder *keyr = setupencoder(13, 12);
-	rotate = keyr->value;*/
-	
 
-	
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
-		
-				
-			
-		/*	if (rotate < keyr->value) {
-				keyEv.code  = KEY_BACKSPACE;
-				keyEv.value = 1;
-				write(fd, &keyEv, sizeof(keyEv));
-				keyEv.code  = keypress+1;
-				keyEv.value = 1;
-				write(fd, &keyEv, sizeof(keyEv));
-				c = 1;
-				rotate = keyr->value;	
-			} else if (rotate > keyr->value) {
-				keyEv.code  = KEY_BACKSPACE;
-				keyEv.value = 1;
-				write(fd, &keyEv, sizeof(keyEv));
-				keyEv.code  = keypress-1;
-				keyEv.value = 1;
-				write(fd, &keyEv, sizeof(keyEv));
-				c = 1;
-				rotate = keyr->value;	
-			} */
-			
+
+
 		if(poll(p, j, timeout) > 0) { // If IRQ...
 				
 			
@@ -318,7 +328,6 @@ int main(int argc, char *argv[]) {
 					// in internal state flag, but
 					// don't issue to uinput yet --
 					// must wait for debounce!
-					b++;
 					lseek(p[i].fd, 0, SEEK_SET);
 					read(p[i].fd, &c, 1);
 					if(c == '0')      intstate[i] = 1;
@@ -338,43 +347,14 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
-						//if (io[i].key == 193)
-						//{
-							
-							
-							keyEv.code  = 2++;
-							keyEv.value = intstate[j];
-							write(fd, &keyEv,
-							  sizeof(keyEv));
-						/*} else
-						if (io[i].key == 194)
-						{
-							
-							keyEv.code  = keyboard[b];
-							b=b-1;
-							
-							if (b==-1)
-							{b=35;}
-							
-							keyEv.value = intstate[j];
-							write(fd, &keyEv,
-							  sizeof(keyEv));
-						} else {
+						io[i].key = io[i].key + 1;
 						keyEv.code  = io[i].key;
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
-						}*/
 						c = 1; // Follow w/SYN event
-						/*b++;
-							
-							if (b>72)
-							{b=0;}
-						*/
 						
 					}
-					
-							
 					j++;
 				}
 			}
@@ -382,12 +362,12 @@ int main(int argc, char *argv[]) {
 			timeout = -1; // Return to normal IRQ monitoring
 			
 		}
-	
 
-	
-		
-	
-	
+
+
+
+
+
 	}
 
 	// ----------------------------------------------------------------
