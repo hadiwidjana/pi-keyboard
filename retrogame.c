@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -297,7 +296,7 @@ int main(int argc, char *argv[]) {
 						extstate[j] = intstate[j];
 						
 						keyEv.code  = babi[susi];
-						susi++;
+						
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
@@ -309,6 +308,7 @@ int main(int argc, char *argv[]) {
 			}
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
+			
 			
 		}
 
