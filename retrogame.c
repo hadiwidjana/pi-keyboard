@@ -177,11 +177,10 @@ int main(int argc, char *argv[]) {
 	struct uinput_user_dev uidev;           // uinput device
 	struct input_event     keyEv, synEv;    // uinput events
 	struct pollfd          p[IOLEN];        // GPIO file descriptors
-	int keyboard[] = { 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
+	int keyboard[] = { 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
 			48, 0, 46, 0, 32, 0, 18, 0, 33, 0, 34, 0, 35, 0, 23, 0, 36, 0,
 			37, 0, 38, 0, 50, 0, 49, 0, 24, 0, 25, 0, 16, 0, 19, 0, 31, 0, 
 			20, 0, 22, 0, 47, 0, 17, 0, 45, 0, 21, 0, 44};
-	int b = 0;
 	
 	progName = argv[0];             // For error reporting
 	signal(SIGINT , signalHandler); // Trap basic signals (exit cleanly)
@@ -283,7 +282,7 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
-	for(i=0; i<70; i++) {
+	for(i=0; i<200; i++) {
 		if(io[i].key != GND) {
 			if(ioctl(fd, UI_SET_KEYBIT, i) < 0)
 				err("Can't SET_KEYBIT");
@@ -348,8 +347,8 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
-						b = b + 1;
-						keyEv.code  = keyboard[b];
+						io[i].key = io[i].key + 1;
+						keyEv.code  = io[i].key;
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
