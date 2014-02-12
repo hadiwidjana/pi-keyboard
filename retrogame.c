@@ -344,6 +344,7 @@ int main(int argc, char *argv[]) {
 					j++;
 				
 			}
+			}
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
 			
