@@ -177,10 +177,10 @@ int main(int argc, char *argv[]) {
 	struct uinput_user_dev uidev;           // uinput device
 	struct input_event     keyEv, synEv;    // uinput events
 	struct pollfd          p[IOLEN];        // GPIO file descriptors
-	int keyboard[] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
-			48, 0, 46, 0, 32, 0, 18, 0, 33, 0, 34, 0, 35, 0, 23, 0, 36, 0,
+	int keyboard[] = { 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 30, 30, 
+			48, 30, 46, 30, 32, 30, 18, 30, 33, 30, 34, 30, 35, 30, 23, 30, 36, 30,
 			37, 0, 38, 0, 50, 0, 49, 0, 24, 0, 25, 0, 16, 0, 19, 0, 31, 0, 
-			20, 0, 22, 0, 47, 0, 17, 0, 45, 0, 21, 0, 44, 0};
+			20, 30, 22, 30, 47, 30, 17, 30, 45, 30, 21, 30, 44, 30};
 	int b = 0;
 
 	progName = argv[0];             // For error reporting
@@ -356,7 +356,7 @@ int main(int argc, char *argv[]) {
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
 						
-						if(b>10) b=0;
+						if(b>72) b=0;
 					}
 					j++;
 					
