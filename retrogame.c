@@ -239,7 +239,7 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
-	for(i=0; i<190; i++) {
+	for(i=0; i<195; i++) {
 		if(io[i].key != GND) {
 			if(ioctl(fd, UI_SET_KEYBIT, i) < 0)
 				err("Can't SET_KEYBIT");
@@ -330,8 +330,8 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
-						if (io[i].key == 193)
-						{
+						//if (io[i].key == 193)
+						//{
 							
 							keyEv.code  = keyboard[b];
 							b=b+1;
@@ -342,7 +342,7 @@ int main(int argc, char *argv[]) {
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
-						} else
+						/*} else
 						if (io[i].key == 194)
 						{
 							
@@ -360,10 +360,10 @@ int main(int argc, char *argv[]) {
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
-						}
+						}*/
 						c = 1; // Follow w/SYN event
 						
-					}
+					//}
 					j++;
 				}
 			}
