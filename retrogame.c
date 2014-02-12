@@ -319,7 +319,7 @@ int main(int argc, char *argv[]) {
 	while(running) { // Signal handler can set this to 0 to exit
 		// Wait for IRQ on pin (or timeout for button debounce)
 
-		b++;
+		if (keyboard[b] == 44) {b=0;}
 		if(poll(p, j, timeout) > 0) { // If IRQ...
 
 
