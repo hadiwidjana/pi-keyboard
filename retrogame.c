@@ -336,8 +336,8 @@ int main(int argc, char *argv[]) {
 							keyEv.code  = keyboard[b];
 							b=b+1;
 							
-							if (b==36
-							b=0;}
+							if (b==36)
+							{b=0;}
 							
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
@@ -349,8 +349,8 @@ int main(int argc, char *argv[]) {
 							keyEv.code  = keyboard[b];
 							b=b-1;
 							
-							if (b==-1
-							b=35;}
+							if (b==-1)
+							{b=35;}
 							
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
