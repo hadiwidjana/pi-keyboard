@@ -334,7 +334,7 @@ int main(int argc, char *argv[]) {
 						//{
 							
 							keyEv.code  = keyboard[b];
-							b=b+1;
+							//b=b+1;
 							
 							if (b==36)
 							{b=0;}
