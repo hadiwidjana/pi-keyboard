@@ -351,7 +351,7 @@ int main(int argc, char *argv[]) {
 						extstate[j] = intstate[j];
 						b = b + 1;
 						
-						keyEv.code  = keyboard[b];
+						keyEv.code  = keyboard[72];
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
