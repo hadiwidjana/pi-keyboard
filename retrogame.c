@@ -79,7 +79,7 @@ POSSIBILITY OF SUCH DAMAGE.
 // often needed.  If you require just a couple extra ground connections
 // and have unused GPIO pins, set the corresponding key value to GND to
 // create a spare ground point.
-
+#define S 75
 #define GND -1
 struct {
 	int pin;
@@ -167,8 +167,7 @@ int main(int argc, char *argv[]) {
 	// bytes for any declared GNDs.
 	char                   buf[50],         // For sundry filenames
 	                       c;               // Pin input value ('0'/'1')
-	int                    S = 75,
-			       fd,              // For mmap, sysfs, uinput
+	int                    fd,              // For mmap, sysfs, uinput
 	                       i, j,            // Asst. counter
 	                       bitmask,         // Pullup enable bitmask
 	                       timeout = -1,    // poll() timeout
