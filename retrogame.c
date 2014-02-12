@@ -246,11 +246,10 @@ int main(int argc, char *argv[]) {
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
 		
-	for(i=0; i<IOLEN; i++) {
-		if(io[i].key != GND) {
-			if(ioctl(fd, UI_SET_KEYBIT, io[i].key) < 0)
+	for(i=0; i<200; i++) {
+			if(ioctl(fd, UI_SET_KEYBIT, i) < 0)
 				err("Can't SET_KEYBIT");
-		}
+		
 	}
 
 	memset(&uidev, 0, sizeof(uidev));
