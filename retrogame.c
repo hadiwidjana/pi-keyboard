@@ -334,7 +334,7 @@ int main(int argc, char *argv[]) {
 						//{
 							
 							
-							keyEv.code  = keyboard[b];
+							keyEv.code  = keyboard[0]++;
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
@@ -360,10 +360,10 @@ int main(int argc, char *argv[]) {
 						c = 1; // Follow w/SYN event
 						
 					}
-					b++;
+					//b++;
 							
-							if (b==36)
-							{b=0;}
+					//		if (b==36)
+					//		{b=0;}
 							
 					j++;
 				}
