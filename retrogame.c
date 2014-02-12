@@ -86,7 +86,8 @@ struct {
 	int key;
 } io[] = {
 //	  Input    Output (from /usr/include/linux/input.h)
-	{ 2,      KEY_A     },
+	{ 2,      183     },
+	{ 3,      184     },
 };
 #define IOLEN (sizeof(io) / sizeof(io[0])) // io[] table size
 
@@ -343,6 +344,10 @@ int main(int argc, char *argv[]) {
 			// remapping table or a duplicate key[] list.
 			for(c=i=j=0; i<IOLEN; i++) {
 				if(io[i].key != GND) {
+					
+					
+					
+					if (io[i].key == 183){
 					// Compare internal state against
 					// previously-issued value.  Send
 					// keystrokes only for changed states.
@@ -359,6 +364,24 @@ int main(int argc, char *argv[]) {
 						
 					}
 					b++;
+					} else if (io[i].key == 184){
+					// Compare internal state against
+					// previously-issued value.  Send
+					// keystrokes only for changed states.
+					if(intstate[j] != extstate[j]) {
+						extstate[j] = intstate[j];
+						
+						keyEv.code  = keyboard[b];
+						
+						keyEv.value = intstate[j];
+						write(fd, &keyEv,
+						  sizeof(keyEv));
+						c = 1; // Follow w/SYN event
+						
+						
+					}
+					b--;
+					}
 					j++;
 					
 				}
