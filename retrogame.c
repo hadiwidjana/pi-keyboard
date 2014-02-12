@@ -167,7 +167,7 @@ int main(int argc, char *argv[]) {
 	// bytes for any declared GNDs.
 	char                   buf[50],         // For sundry filenames
 	                       c;               // Pin input value ('0'/'1')
-	int                    S = 72,
+	int                    S = 73,
 			       fd,              // For mmap, sysfs, uinput
 	                       i, j,            // Asst. counter
 	                       bitmask,         // Pullup enable bitmask
