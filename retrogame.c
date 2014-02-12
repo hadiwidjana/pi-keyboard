@@ -332,13 +332,9 @@ int main(int argc, char *argv[]) {
 						extstate[j] = intstate[j];
 						//if (io[i].key == 193)
 						//{
-							b=b+1;
 							
-							if (b==36)
-							{b=0;}
+							
 							keyEv.code  = keyboard[b];
-							
-							
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
@@ -364,6 +360,11 @@ int main(int argc, char *argv[]) {
 						c = 1; // Follow w/SYN event
 						
 					}
+					b++;
+							
+							if (b==36)
+							{b=0;}
+							
 					j++;
 				}
 			}
