@@ -177,11 +177,12 @@ int main(int argc, char *argv[]) {
 	struct uinput_user_dev uidev;           // uinput device
 	struct input_event     keyEv, synEv;    // uinput events
 	struct pollfd          p[IOLEN];        // GPIO file descriptors
-	int keyboard[] = { 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
+	int keyboard[] = { 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 30, 0, 
 			48, 0, 46, 0, 32, 0, 18, 0, 33, 0, 34, 0, 35, 0, 23, 0, 36, 0,
 			37, 0, 38, 0, 50, 0, 49, 0, 24, 0, 25, 0, 16, 0, 19, 0, 31, 0, 
 			20, 0, 22, 0, 47, 0, 17, 0, 45, 0, 21, 0, 44};
-	
+	int b = 0;
+
 	progName = argv[0];             // For error reporting
 	signal(SIGINT , signalHandler); // Trap basic signals (exit cleanly)
 	signal(SIGKILL, signalHandler);
@@ -320,8 +321,8 @@ int main(int argc, char *argv[]) {
 
 
 		if(poll(p, j, timeout) > 0) { // If IRQ...
-				
-			
+
+
 			for(i=0; i<j; i++) {       // Scan non-GND pins...
 				if(p[i].revents) { // Event received?
 					// Read current pin state, store
@@ -347,20 +348,20 @@ int main(int argc, char *argv[]) {
 					// keystrokes only for changed states.
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
-						io[i].key = io[i].key + 1;
-						keyEv.code  = io[i].key;
+						b = b + 1;
+						keyEv.code  = keyboard[b];
 						keyEv.value = intstate[j];
 						write(fd, &keyEv,
 						  sizeof(keyEv));
 						c = 1; // Follow w/SYN event
-						
+
 					}
 					j++;
 				}
 			}
 			if(c) write(fd, &synEv, sizeof(synEv));
 			timeout = -1; // Return to normal IRQ monitoring
-			
+
 		}
 
 
