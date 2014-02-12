@@ -245,9 +245,10 @@ int main(int argc, char *argv[]) {
 		err("Can't open /dev/uinput");
 	if(ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		err("Can't SET_EVBIT");
+		
 	for(i=0; i<; i++) {
 		if(io[i].key != GND) {
-			if(ioctl(fd, UI_SET_KEYBIT, io[].key) < 0)
+			if(ioctl(fd, UI_SET_KEYBIT, io[i].key) < 0)
 				err("Can't SET_KEYBIT");
 		}
 	}
@@ -342,7 +343,7 @@ int main(int argc, char *argv[]) {
 						//{
 							
 							
-							keyEv.code  = io.key[];
+							keyEv.code  = io.key[i];
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
