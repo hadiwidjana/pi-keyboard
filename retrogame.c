@@ -363,7 +363,7 @@ int main(int argc, char *argv[]) {
 						c = 1; // Follow w/SYN event
 						b++;
 							
-							if (b==72)
+							if (b>72)
 							{b=0;}
 						
 						
