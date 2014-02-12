@@ -386,7 +386,7 @@ int main(int argc, char *argv[]) {
 			
 			
 			if(c) write(fd, &synEv, sizeof(synEv));
-			timeout = 20; // Return to normal IRQ monitoring
+			timeout = -1; // Return to normal IRQ monitoring
 
 		}
 
