@@ -342,7 +342,7 @@ int main(int argc, char *argv[]) {
 						//{
 							
 							
-							keyEv.code  = 2;
+							keyEv.code  = 2++;
 							keyEv.value = intstate[j];
 							write(fd, &keyEv,
 							  sizeof(keyEv));
@@ -366,11 +366,11 @@ int main(int argc, char *argv[]) {
 						  sizeof(keyEv));
 						}*/
 						c = 1; // Follow w/SYN event
-						b++;
+						/*b++;
 							
 							if (b>72)
 							{b=0;}
-						
+						*/
 						
 					}
 					
