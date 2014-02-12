@@ -356,7 +356,7 @@ int main(int argc, char *argv[]) {
 					if(intstate[j] != extstate[j]) {
 						extstate[j] = intstate[j];
 						
-						keyEv.code  = keyboard[b];
+						keyEv.code  = keyboard[5];
 						
 						
 						keyEv.value = intstate[j];
@@ -368,7 +368,7 @@ int main(int argc, char *argv[]) {
 					
 					}
 					j++;
-					b++;
+					
 				}
 			}
 			
